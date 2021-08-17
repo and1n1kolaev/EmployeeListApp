@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+<ul class="navbar-nav">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <span class="nav-link text-dark">Здравствуйте, @User.Identity.Name!</span>
+        </li>
+       
+        <li class="nav-item">
+            <form class="form-inline"
+                  asp-controller="Account"
+                  asp-action="LogOut"
+                  asp-route-returnUrl="@Url.Action("Index", "Home")">
+                <button type="submit" class="nav-link btn btn-link text-dark">Выход</button>
+            </form>
+        </li> }
+     else
+     {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Вход</a>
+        </li>
+         <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Account" asp-action="Add">Добавить пользователя</a>
+        </li>
+     }
+</ul>

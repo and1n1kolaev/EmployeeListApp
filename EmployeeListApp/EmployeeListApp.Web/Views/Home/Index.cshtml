@@ -1,0 +1,104 @@
+﻿@model IEnumerable<EmployeeListApp.WEB.Models.EmployeeItemViewModel>
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+
+
+<div id="employee-search">
+    <form asp-controller="Home" asp-action="Index"  method="get">
+        <p>
+            <input type="text" value="@ViewBag.Search" placeholder="Поиск по фамилии" name="SearchString" />
+            <input type="submit" value="Поиск" />
+            @if (ViewBag.Search != null)
+            {
+                <a asp-action="Index">Сбросить</a>
+            }
+
+        </p>
+    </form>
+</div>
+<div id="employee-add">
+    <a class="btn btn-primary" asp-action="Add">Добавить сотрудника</a>
+</div>
+<table id="employee-table" class="table table-striped">
+    <thead>
+        <tr>
+            <th class="employee-name">
+                @Html.DisplayNameFor(p => p.Name)
+            </th>
+            <th class="employee-second-name">
+                @Html.DisplayNameFor(p => p.SecondName)
+            </th>
+            <th class="employee-age">
+                @Html.DisplayNameFor(p => p.Age)
+            </th>
+            <th class="employee-gender">
+                @Html.DisplayNameFor(p => p.Gender)
+            </th>
+            <th class="employee-gender">
+                @Html.DisplayNameFor(p => p.Experience)
+            </th>
+            <th class="employee-department-name">
+                @Html.DisplayNameFor(p => p.DepartmentName)
+            </th>
+            <th class="employee-department-floor">
+                @Html.DisplayNameFor(p => p.DepartmentFloor)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a>@item.Name</a>
+                </td>
+                <td>
+                    @item.SecondName
+                </td>
+                <td>
+                    @item.Age
+                </td>
+                <td>
+                    @item.StringGender
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var lang in item.Experience)
+                        {
+                            <li style="list-style-type:none;">@lang</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @item.DepartmentName
+                </td>
+                <td>
+                    @item.DepartmentFloor
+                </td>
+                <td class="manage-col">
+                    <form asp-controller="Home" method="post">
+                        <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                        <input class="btn btn-danger btn-sm"
+                               asp-action="Delete" type="submit"
+                               asp-route-id="@item.Id" value="Удалить"
+                               onclick="if (!confirm('Вы действительно хотите удалить пользователя: @($"{item.SecondName} {item.Name}")?')) { event.preventDefault(); }" />
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.PagedListPager((IPagedList)Model, page =>
+    Url.Action("Index", new { pageNumber = page }),
+    new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })
+

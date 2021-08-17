@@ -1,0 +1,13 @@
+﻿#employee-search{
+    display: inline-block;
+}
+
+#employee-add {
+    display: inline-block;
+    float:right;
+}
+
+.manage-col {
+    width: 180px;
+}
+

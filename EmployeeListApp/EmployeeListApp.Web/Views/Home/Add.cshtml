@@ -1,0 +1,65 @@
+﻿
+@model EmployeeViewModel
+<a class="btn btn-light btn-sm" asp-action="Index">Вернутся к списку сотрудников</a>
+
+
+
+<div class="alert"></div>
+<form asp-controller="Home" asp-action="Add" method="post" style="margin-top: 1em;">
+    <h3>Добавление сотрудника</h3>
+    <div class="form-row">
+        <div class="form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="SecondName"></label>
+            <input asp-for="SecondName" class="form-control">
+            <span asp-validation-for="SecondName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="Age"></label>
+            <input asp-for="Age" class="form-control">
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="Gender"></label>
+            <div>
+                <input type="radio" asp-for="Gender" checked name="Gender" value="@Gender.Male" /> Мужской
+                <input type="radio" asp-for="Gender" name="Gender" value="@Gender.Female" /> Женский
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="Departments"></label>
+            <select asp-for="DepartmentId" asp-items="@(new SelectList(Model.Departments, "Id", "Label"))" class="form-control"></select>
+            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4 col-sm-6 col-12">
+            <label asp-for="Languages"></label>
+            <select multiple="multiple" class="form-control" asp-for="LanguagesId" asp-items="@(new SelectList(Model.Languages, "Id", "Label"))"></select>
+            <span asp-validation-for="LanguagesId" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-primary">Применить</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#Name').autocomplete({
+            source: '@Url.Action("NameAutoComplete", "Home")'
+        });
+    });
+</script>
+
